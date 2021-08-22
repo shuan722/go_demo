@@ -1,0 +1,222 @@
+day 09:  https://www.bilibili.com/video/BV1s5411J7cU?p=107
+  购物车: 体会重构
+  2048算法: 体会降为思想,锻炼逻辑思维
+  面向对象:
+    概述:
+      面向过程: 关注过程(细节)      "干"
+      面向对象: 关心解决过程的人  "找"
+        类与对象:
+          类: 类别 class
+          对象: 个体    object
+          类与类的区别: 行为不同
+          对象与对象的区别:数据不同
+        语法:
+          创建类:
+          class 类名:
+            def __init__(self,参数):
+                """ 文档说明 """
+              # 数据成员
+                  self.数据1 = 参数
+
+              # 行为成员
+                  def 方法名称():
+                    方法体
+          创建对象:
+          对象 = 构造函数(参数列表)
+day 10: https://www.bilibili.com/video/BV1s5411J7cU?p=116
+  类和对象:
+    类: 抽象的
+    对象: 具体
+    之间的区别: # 类与类行为不同, 对象与对象数据不同
+      同一个类型的多个对象,数据不同,行为相同
+    类成员:
+      实例: 对象的数据(变量), 对象的行为(方法)
+        class MyClass:
+          def __init__(self,a)
+          # 实例变量
+          self.a = a
+
+          # 实例方法
+          def print_self(self):
+            # 可以操作实例变量
+            print(self.a)
+        # 通过对象访问
+        m01 = MyClass(100)
+        m01.print_self()
+        print(m01.a)
+
+
+      类: 类的数据(变量),类的行为(方法)
+        可以被所有对象共同操作的数据
+        class MyClass2:
+          # 类变量
+          a = a
+          # 类方法
+          @classmethod # 自动传入当前方法的参数是类,而不是对象
+          def print_self(cls):
+            # 可以操作类变量
+            print(cls.a)
+
+        # 通过类名访问
+        print(MyClass2.a)
+        MyClass2.print_self()
+
+        ------------不常用的访问方式 -----------
+        # 访问实例方法,还可以通过类,也必须传递对象
+        # 访问类成员,还可以通过对象
+
+      静态方法:
+        实例方法操作实例变量,表示"个体"行为
+        类方法操作类类变量,表示"大家"行为
+        静态方法不能操作数据,表示为函数都可以
+
+day 11: https://www.bilibili.com/video/BV1s5411J7cU?p=127
+  封装:
+    数据角度: 将多个变量封装到一个自定义类中.
+      优势:
+        符合人类的思考方式
+        可以将数据与对数据的操作封装到一起
+
+    功能角度:对外提供必要的功能,隐藏实现的细节
+    -- 私有化: 将名称命名为以双划线开头.
+      内部修改成员名称
+    -- 属性: self.name  = ?  对实例变量的保护(拦截读/写操作)
+
+    -- __slots__: 限定一个类创建的实例只能有固定的实例变量
+
+    设计角度:
+      分而治之: 将大的需求分解为多个类,每个类负责一个职责
+      变而疏之: 遇到变化点单独封装为一个类
+      --------------------------------------
+      高内聚: 一个类有且只有一个发生变化的原因
+      低耦合: 类与类的关系松散
+
+    语法:
+      数据角度:
+      class Student:
+        def __init__(self,name,age):
+          self.name = name
+          self.age = age
+        # ....
+
+        def print_self(self):
+          print(self.name,self.age)
+
+      s01 = Student("无忌哥哥",28)
+      # 通过对象调用实例成员
+      s01.name = "张无忌"
+      s01.print_self()
+
+
+      class Student02:
+        def __init__(self,name,age):
+          self.name = name
+          self.age = age
+          # self.__age = age
+        # self.set_age(age)
+        # ....
+
+        @property
+        def age(self):
+          return self.__age
+
+        @age.setter
+        def age(self,value):
+          self.__age = value
+
+        age = property(get_age,set_age)
+
+      s01 = Student("无忌哥哥",28)
+      s01.name = "张无忌"
+      print(s01.age)
+
+day 12: https://www.bilibili.com/video/BV1s5411J7cU?p=137
+  View Controller  Model
+  界面  业务逻辑    数据
+  变化     变化      {}
+  语法:
+    class XXController:
+      def add_xx(self,a):
+        print("Controller 添加了数据",a)
+
+    class XXView:
+      def __init__(self)
+      self.c == XXController()
+
+      def input_xx(self):
+        # 需求: 调用XXController类中的实例方法add_xx
+        pass
+  # 时序图
+day 13: https://www.bilibili.com/video/BV1s5411J7cU?p=149
+  面向对象: # 考虑问题从对象的角度开发
+    抽象: 从多个事物中,舍弃个别的/非本质的特征(不重要的),
+      抽出共性的本质(重要的)过程
+    三大特征:
+      封装: 将每个变化点单独分解到不同的类中
+
+      继承: 重用现有类的功能和概念,并在此基础上进行扩展.
+        优势:
+          代码复用 --- 最不推荐的,但也是最直接的方式方法
+          统一概念
+          例如: 图形管理器
+          做法: 用图形类代表/约束.. 具有计算面积的方法
+
+      多态: 调用父"抽象的"方法,执行子类"具体的方法"
+        重写:  覆盖父类那个比较抽象的方法
+        类如: 图形管理器调用图形的计算面积方法
+          具体图形必须重写图形的计算面积方法
+
+      继承是共性,多态是个性; 让程序变得灵活(提交高质量代码)
+
+    设计原则: # 三大特征的细化
+      开闭原则: 允许增加新功能, 不允许修改客户端代码
+      单一职责: 一个有且只有一个改变的原因
+      依赖倒置: 调用抽象(父),不要调用具体(子)
+        抽象不要依赖具体,
+      组合复用:如果仅仅是代码的复用,优先使用组合
+    类与类关系:
+      泛化(继承): 做成爸爸
+      组合:
+        关联: 做成成员变量
+        依赖: 做成方法参数
+
+员工管理器架构: https://www.bilibili.com/video/BV1s5411J7cU?p=151
+class EmployeeManager:
+  def __init__(self):
+    self.__employees = []
+
+  def add_employee(self,emp):
+    self.__employees.append(emp)
+
+  def get_total_searly(self):
+    total_searly =  0
+    for item in self.__employees:
+      # total_searly += item.计算薪资()
+      # 调用是抽象的员工类
+      # 执行的是具体的员工(程序员,测试...)
+      total_searly += item.calculate_salary
+      return total_searly
+
+class Employee:
+  def __init__(self):
+    self.base_salary = base_salary
+
+  def calculate_salary(self):
+    return self.base_salary
+
+#--------------------------------------------
+class Programmer(Employee):
+  def __init__(self,base_salary,bonus):
+    supper().__init__(base_salary)
+    self.bonus = bonus
+
+  def calculate_salary(self):
+    return self.base_salary + self.bonus
+
+class Salesmen(Employee):
+  def __init__(self,base_salary,sale_value):
+    supper().__init__(base_salary)
+    self.sale_value = sale_value
+
+  def calculate_salary(self):
+    return self.base_salary + self.sale_value *0.05
